@@ -1,0 +1,103 @@
+import random
+import turtle
+
+
+# now we start to generate graph
+turtle.screensize(canvwidth=800,canvheight=500) #set up the canvas
+turtle.tracer(0)
+
+while True: #set up a loop for an input
+    throws = int(input("How many dart throws? "))
+    if throws >= 1:
+        break
+    else:
+        print("Invalid, try again")
+        
+
+#set up an input function for an input
+s = int(input("Enter a random seed value: "))
+random.seed(s)
+
+blue = 0 #set up accumulators
+red = 0
+grey = 0
+yellow = 0
+green = 0
+miss = 0
+ac = 0 #accumtulator
+turtle.up()#avoid drawing the line
+for i in range(throws):
+    turtle.update()
+    ac += 1
+    check = 1 #used to check if it hits
+    x = random.uniform(0,800) #generate random numbers
+    y = random.uniform(0,500)
+    #print(x,y)
+    if (x>50 and x < 200) and (y>100 and y < 450): #check if it is in a certain color block
+        red += 1
+        check = 0
+        turtle.setposition(x, 500-y)
+        turtle.dot(5, "red") # drawing the pixel.
+        turtle.up()
+    d1 = ((x - 400)**2 +(y - 150)**2)**0.5 #check if it is in grenn ball
+    d2 = ((x - 400 )**2 +(y - 300)**2)**0.5 #check if it is in blue ball
+    if d1 <= 100:
+        green += 1
+        check = 0
+        turtle.setposition(x, 500-y)
+        turtle.pencolor("green")
+        
+        turtle.dot(5, "green") 
+        turtle.up()# drawing the pixel. and then pick up the pen
+    if d2 <= 100:
+        blue += 1 #used to check if it in green, blue or mixed
+        check = 0
+        turtle.setposition(x, 500-y)
+        turtle.pencolor("blue")
+        turtle.dot(5, "blue") # drawing the pixel.
+        turtle.up()
+    if d1 <= 100 and d2 <= 100:
+        grey += 1
+        blue -= 1
+        green -= 1
+        check = 0
+        turtle.setposition(x, 500-y)
+        turtle.pencolor("grey")
+        turtle.dot(5, "grey") # drawing the pixel.
+        turtle.up()
+    
+    if ((x > 600 and x < 650) and (y>50 and y<400)) or ((x > 650 and x < 700) and (y>350 and y<400)) or ((x > 700 and x < 750) and (y>50 and y<400)) :
+        yellow += 1
+        check = 0
+        turtle.setposition(x, 500-y)
+        turtle.pencolor("yellow")
+        turtle.dot(5, "yellow") # drawing the pixel.
+        turtle.up()
+    if check:
+        miss += 1
+
+    #this line is to check if it is in the yellow77y7f
+
+
+
+
+# now start to generate output
+blue1 = format(blue/ ac * 100, ".2f") #calculate variable for later use
+yellow1 = format(yellow / ac* 100, ".2f")
+green1 = format(green / ac* 100, ".2f")
+grey1 = format(grey / ac* 100, ".2f")
+miss1 = format(miss / ac* 100, ".2f")
+red1 = format(red/ ac* 100, ".2f")
+
+#print out
+print("Red hits: " + str(red) + " (" + red1 + "%)" )
+print("Green hits: " + str(green) + " (" + green1 + "%)" )
+print("Blue hits: " + str(blue) + " (" + blue1 + "%)" )
+print("Overlap hits: " + str(grey) + " (" + grey1 + "%)" )
+print("Yellow hits: " + str(yellow) + " (" + yellow1 + "%)" )
+print("Missed hits: " + str(miss) + " (" + miss1 + "%)" )
+
+
+
+
+turtle.mainloop()
